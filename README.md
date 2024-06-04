@@ -1,7 +1,9 @@
 
 ###  **Project Management Tool**
 
-**Tech Stack**: Next.js, TypeScript, Ant Design, MongoDB, Apollo Client **Roles**:
+**Tech Stack**: Next.js, TypeScript, Ant Design, MongoDB, Apollo Client
+
+**Roles**:
 
 -   **Next.js**: Framework for building the app
 -   **TypeScript**: Adds static typing
