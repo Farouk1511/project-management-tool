@@ -1,0 +1,8 @@
+{
+  "token": {
+    "colorPrimary": "#fa8c16",
+    "colorInfo": "#fa8c16",
+    "colorWarning": "#fadb14"
+  },
+  "algorithm": "dark"
+}
