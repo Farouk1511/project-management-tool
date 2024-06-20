@@ -32,7 +32,7 @@ const items : MenuItem[] = [
     label: "",
     type: "group",
     children: [
-      { key: "/home", icon: <HomeOutlined />, label: "Home" },
+      { key: "//", icon: <HomeOutlined />, label: "Home" },
       { key: "/task", icon: <ProfileOutlined />, label: "Tasks" },
       { key: "/members", icon: <UsergroupAddOutlined />, label: "Members" },
       { key: "/dashboard", icon: <DashboardOutlined />, label: "Dashboard" },
