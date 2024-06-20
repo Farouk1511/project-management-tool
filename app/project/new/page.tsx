@@ -18,7 +18,7 @@ export default function NewProject() {
           <TextArea placeholder="description of the project"  />
         </Form.Item>
         <Form.Item >
-          <Button type="primary">Submit</Button>
+          <Button type="primary">Create</Button>
         </Form.Item>
       </Form>
     </div>
