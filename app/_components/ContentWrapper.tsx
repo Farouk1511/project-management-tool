@@ -10,7 +10,7 @@ export default function ContentWrapper({children}:React.PropsWithChildren) {
       <div
         style={{
           padding: 24,
-          height: "100vh",
+          height: "100%",
           background: colorBgContainer,
           borderRadius: borderRadiusLG,
         }}

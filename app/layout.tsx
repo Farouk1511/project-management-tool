@@ -8,8 +8,10 @@ import ContentWrapper from "./_components/ContentWrapper";
 import { SearchOutlined } from "@ant-design/icons";
 import Title from "antd/es/typography/Title";
 import Text from "antd/es/typography/Text";
+import { connectToMongoDB } from "./lib/connectDB";
 
-const RootLayout = ({ children }: React.PropsWithChildren) => {
+const RootLayout = async({ children }: React.PropsWithChildren) => {
+  await connectToMongoDB()
   return (
     <html lang="en">
       <body style={{ margin: 0,backgroundColor:"black"}}>
@@ -24,7 +26,7 @@ const RootLayout = ({ children }: React.PropsWithChildren) => {
                       addonBefore={<SearchOutlined />}
                       placeholder="search for anything..."
                       style={{
-                        width: "300px",
+                        width: "90%",
                         marginTop: "10px",
                         marginLeft: "20px",
                         borderRadius: "10px",

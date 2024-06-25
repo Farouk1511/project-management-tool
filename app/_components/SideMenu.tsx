@@ -1,4 +1,3 @@
-"use client";
 import { Badge, Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import {
@@ -11,57 +10,63 @@ import {
 import Title from "antd/es/typography/Title";
 import type { GetProp, MenuProps } from 'antd';
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Project from "../_models/projectModel";
 
 type MenuItem = GetProp<MenuProps, 'items'>[number];
 
-const items : MenuItem[] = [
-  {
-    key: "grp0",
-    label: "",
-    type: "group",
-    children: [
-      {
-        key: "/project/new",
-        icon: <PlusCircleOutlined />,
-        label: "Create new Project",
-      },
-    ],
-  },
-  {
-    key: "grp",
-    label: "",
-    type: "group",
-    children: [
-      { key: "//", icon: <HomeOutlined />, label: "Home" },
-      { key: "/task", icon: <ProfileOutlined />, label: "Tasks" },
-      { key: "/members", icon: <UsergroupAddOutlined />, label: "Members" },
-      { key: "/dashboard", icon: <DashboardOutlined />, label: "Dashboard" },
-    ],
-  },
-  {
-    type: "divider",
-  },
-  {
-    key: "grp1",
-    label: "My Projects",
-    type: "group",
-    children: [
-      { key: "/project/ecommerce-app", label: <Badge color="pink" text="Ecommerce App" /> },
-      { key: "/project/mdt8", label: <Badge color="green" text="MDT8" /> },
-      { key: "/project/cad8", label: <Badge color="blue" text="CAD8" /> },
-      { key: "/project/project-management-app", label: <Badge color="red" text="Project management app" /> },
-      { key: "/project/12n12", label: <Badge color="yellow" text="12n12" /> },
-    ],
-  },
-];
+export default async function SideMenu() {
 
-export default function SideMenu() {
-  const router = useRouter();
-  const onClick: MenuProps["onClick"] = (e) => {
-    // router.push(e.keyPath)
-    console.log(e);
-    router.push(e.key);
-  };
+  const projects = await Project.find();
+  // you can use graphql here to just get the name and color and not have eto filter for description or waste compute to fetch description
+  const projectMenuItems = projects.map((project) => {
+    return {
+      key: `/project/${project.id}`,
+      label: (
+        <Link href={`/project/${project.id}`}>
+          <Badge color={`${project.color}`} text={`${project.name}`} />
+        </Link>
+      ),
+    };
+  });
+
+  const items : MenuItem[] = [
+    {
+      key: "grp0",
+      label: "",
+      type: "group",
+      children: [
+        {
+          key: "/project/new",
+          icon: <PlusCircleOutlined />,
+          label: <Link href={"/project/new"}>Create new Project</Link>
+        },
+      ],
+    },
+    {
+      key: "grp",
+      label: "",
+      type: "group",
+      children: [
+        { key: "//", icon: <HomeOutlined />, label: <Link href={"//"}>Home</Link> },
+        { key: "/task", icon: <ProfileOutlined />, label: <Link href={"/task"}>Tasks</Link> },
+        { key: "/members", icon: <UsergroupAddOutlined />, label: <Link href={"/members"}>Members</Link> },
+        { key: "/dashboard", icon: <DashboardOutlined />, label: <Link href={"/dashboard"}>Dashboard</Link> },
+      ],
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "grp1",
+      label: "My Projects",
+      type: "group",
+      children: projectMenuItems,
+    },
+   
+  ];
+  
+
   return (
     <Sider
       style={{
@@ -77,12 +82,12 @@ export default function SideMenu() {
         Project Management Tool
       </Title>
       <Menu
-        onClick={onClick}
         theme="dark"
         mode="inline"
         defaultSelectedKeys={["2"]}
         items={items}
       />
+     
     </Sider>
   );
 }

@@ -25,9 +25,9 @@
 -   **Week 3**: User roles and permissions
 -   **Week 4**: Dashboard and testing
 
+https://dribbble.com/shots/24261482-TaskTrek-Project-Management-Tool
 
 **Task Management**
-
 - Create project
 - Projects have 3 states
     -Todo
@@ -39,4 +39,38 @@
 - ability to move task fron each state
     - a simple option tray should suffice (option to drag and drop later)
     - new task as a default state of todo
+
+**Bankend Design**
+
+-- Build apollo server
+-- create mongodb instance
+-- create schemas
+
+**App work flow for new users**
+
+-- User loads webapp
+-- user creates new projects
+    -- Definition of a new project (schema)
+        -- project name
+        -- project id (auto from mongodb)
+        -- project description
+        -- task array
+        -- users that have access to projects (coming soon)
+        -- date created
+        -- last updated
+    -- Definition of a new task (schema)
+        -- Task id (auto)
+        -- Task title
+        -- Task description
+        -- Task status
+        -- Task creation date
+        -- Task update date
+        -- Task priority
+-- adds new task to project
+-- changes task status from todo -> in progress -> done
+-- user can also edit project details
+-- user can also edit task details
+-- user can delete project
+-- user can delete task
+-- users can add multiple projects and tasks
 
