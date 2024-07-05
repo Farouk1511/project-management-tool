@@ -14,18 +14,18 @@ import {
 import Title from "antd/es/typography/Title";
 import Link from "next/link";
 
-export default async function Page({ params }: { params: { projectId: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: { projectId: string };
+}) {
+  let project;
 
-  let project
-
-  try{
-
-    project = await Project.findById(params.projectId)
-  }catch(e){
-    console.error(e)
+  try {
+    project = await Project.findById(params.projectId);
+  } catch (e) {
+    console.error(e);
   }
-
-
 
   let { Group } = Avatar;
   let items = [
@@ -86,14 +86,10 @@ export default async function Page({ params }: { params: { projectId: string } }
     <div>
       <Breadcrumb items={items} />
       <Flex align="center" justify="space-between">
-      <Title level={1}>{project?.name}</Title>
-      <Link href={`/task/new/${params.projectId}`}>
-      
-      <Button>Create task</Button>
-      
-      </Link>
-      
-
+        <Title level={1}>{project?.name}</Title>
+        <Link href={`/task/new/${params.projectId}`}>
+          <Button>Create task</Button>
+        </Link>
       </Flex>
 
       <Row gutter={[16, 16]}>

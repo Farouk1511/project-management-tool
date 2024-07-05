@@ -1,27 +1,35 @@
-'use client'
+"use client";
 import { Button, Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { createProject } from "@/app/lib/actions";
-import { useEffect,useState } from "react";
-import Project from "@/app/_models/projectModel";
-import { connectToMongoDB } from "@/app/lib/connectDB";
+import { useEffect, useState } from "react";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/client";
 
-export default function NewProject({ params }: { params: { projectId: string }}) {
+export default function NewProject({
+  params,
+}: {
+  params: { projectId: string };
+}) {
   const [form] = Form.useForm();
-  const [projectName, setProjectName] = useState<string>(params.projectId)
+  const [projectName, setProjectName] = useState<string>("");
 
-  useEffect(() => {
-    const getProject = async () => {
-        //await connectToMongoDB()
-        const project = await Project.findById(params.projectId)
-        console.log(project)
-       setProjectName(project?.name ?? "")
+  const query = gql`
+    query GetProject($projectId: ID!) {
+      getProject(projectId: $projectId) {
+        _id
+        name
+      }
     }
+  `;
 
-     getProject()
-  },[params])
+  const { loading, error, data } = useQuery(query, {
+    variables: { projectId: params.projectId },
+    skip: !params.projectId,
+    onCompleted: (data) => setProjectName(data?.getProject.name),
+  });
 
-  const onFinish = async (formData:FormData) => {
+  const onFinish = async (formData: FormData) => {
     try {
       console.log("Form Data:", formData);
       await createProject(formData);
@@ -33,38 +41,35 @@ export default function NewProject({ params }: { params: { projectId: string }})
     }
   };
 
+  const project = data?.getProject;
+
   return (
     <div>
       <h1>Create a new Task</h1>
       <p>Create a new task for your project!</p>
 
-      <Form
-        layout="vertical"
-        form={form}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          label="Project Name"
-          name="name"
-        >
-          <Input value={'hello'} disabled placeholder={projectName} />
+      <Form layout="vertical" form={form} onFinish={onFinish}>
+        <Form.Item label="Project Name" name="name">
+          <Input value={"hello"} disabled placeholder={projectName} />
         </Form.Item>
         <Form.Item
           label="Task Name"
           name="name"
-          rules={[{ required: true, message: 'Please enter task name' }]}
+          rules={[{ required: true, message: "Please enter task name" }]}
         >
           <Input placeholder="Task name" />
         </Form.Item>
         <Form.Item
           label="Description"
           name="description"
-          rules={[{ required: true, message: 'Please enter task description' }]}
+          rules={[{ required: true, message: "Please enter task description" }]}
         >
           <TextArea placeholder="Description of the task" />
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">Create task</Button>
+          <Button type="primary" htmlType="submit">
+            Create task
+          </Button>
         </Form.Item>
       </Form>
     </div>
