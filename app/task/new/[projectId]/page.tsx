@@ -15,7 +15,7 @@ export default function NewProject({ params }: { params: { projectId: string }})
         //await connectToMongoDB()
         const project = await Project.findById(params.projectId)
         console.log(project)
-       setProjectName(project?.name)
+       setProjectName(project?.name ?? "")
     }
 
      getProject()
