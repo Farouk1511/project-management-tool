@@ -16,7 +16,15 @@ import Link from "next/link";
 
 export default async function Page({ params }: { params: { projectId: string } }) {
 
-  const project = await Project.findById(params.projectId)
+  let project
+
+  try{
+
+    project = await Project.findById(params.projectId)
+  }catch(e){
+    console.error(e)
+  }
+
 
 
   let { Group } = Avatar;
