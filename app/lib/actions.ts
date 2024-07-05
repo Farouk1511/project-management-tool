@@ -19,7 +19,7 @@ export const createProject = async (formData:any) => {
         // Saving the new todo
         newProject.save();
         // Triggering revalidation of the specified path ("/")
-        revalidatePath("/");
+        revalidatePath("/","layout");
         // Returning the string representation of the new todo
         return newProject.toString();
     } catch (error) {
