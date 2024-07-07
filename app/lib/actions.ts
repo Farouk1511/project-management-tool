@@ -35,6 +35,9 @@ export const createTask = async (formData:any) => {
     const description = formData.description;
     const status = formData.status;
     const priority = formData.priority;
+    const projectId = formData.projectId
+
+    console.log(formData)
     //const color = formData.color
     try {
         // Creating a new todo using Todo model
@@ -43,6 +46,7 @@ export const createTask = async (formData:any) => {
             description,
             status,
             priority,
+            projectId
         });
         // Saving the new task
         newTask.save();

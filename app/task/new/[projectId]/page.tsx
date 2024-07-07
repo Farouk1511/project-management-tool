@@ -54,6 +54,8 @@ export default function NewProject({
     }
   };
 
+  console.log(params.projectId)
+
   return (
     <div>
       <h1>Create a new Task</h1>
@@ -61,7 +63,10 @@ export default function NewProject({
 
       <Form layout="vertical" form={form} onFinish={onFinish}>
         <Form.Item label="Project Name" name="name">
-          <Input value={"hello"} disabled placeholder={projectName} />
+          <Input  disabled placeholder={projectName} />
+        </Form.Item>
+        <Form.Item label="Project ID" name="projectId" >
+          <Input defaultValue={params.projectId} value={params.projectId} disabled />
         </Form.Item>
         <Form.Item
           label="Task Title"
