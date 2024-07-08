@@ -1,5 +1,6 @@
 import mongoose, { Document, Model } from "mongoose";
 import { TASK_PRIORITY, TODO_STATUS } from "../lib/constants";
+import { IProjectDocument } from "./projectModel";
 
 // Interface for a task
 export interface ITask {
@@ -7,7 +8,8 @@ export interface ITask {
   description: string;
   status: string;
   priority: string;
-  productId: mongoose.Schema.Types.ObjectId; // Add the productId field
+  projectId: mongoose.Schema.Types.ObjectId; // Add the projectId field
+  project: IProjectDocument | null
 }
 
 // Interface for a task document
@@ -39,9 +41,9 @@ const taskSchema = new mongoose.Schema<ITaskDocument>(
       default: TASK_PRIORITY.MEDIUM,
       enum: Object.values(TASK_PRIORITY),
     },
-    productId: {
+    projectId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Product', // Reference to the Product model
+      ref: 'Project', // Reference to the Product model
       required: true,
     },
   },
@@ -49,6 +51,16 @@ const taskSchema = new mongoose.Schema<ITaskDocument>(
     timestamps: true,
   }
 );
+
+taskSchema.virtual('project',{
+  ref:'Project',
+  localField:'projectId',
+  foreignField:'_id',
+  justOne:true
+})
+
+taskSchema.set('toObject',{virtuals:true})
+taskSchema.set("toJSON",{virtuals:true})
 
 // Task model definition
 const Task: Model<ITaskDocument> = mongoose.models?.Task || mongoose.model<ITaskDocument>("Task", taskSchema);

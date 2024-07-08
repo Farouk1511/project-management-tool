@@ -54,19 +54,24 @@ export default function NewProject({
     }
   };
 
-  console.log(params.projectId)
+  console.log(params.projectId);
 
   return (
     <div>
       <h1>Create a new Task</h1>
       <p>Create a new task for your project!</p>
 
-      <Form layout="vertical" form={form} onFinish={onFinish}>
+      <Form
+        layout="vertical"
+        form={form}
+        onFinish={onFinish}
+        initialValues={{ projectId: params.projectId }}
+      >
         <Form.Item label="Project Name" name="name">
-          <Input  disabled placeholder={projectName} />
+          <Input disabled placeholder={projectName} />
         </Form.Item>
-        <Form.Item label="Project ID" name="projectId" >
-          <Input defaultValue={params.projectId} value={params.projectId} disabled />
+        <Form.Item label="Project ID" name="projectId" initialValue={123}>
+          <Input  disabled />
         </Form.Item>
         <Form.Item
           label="Task Title"
