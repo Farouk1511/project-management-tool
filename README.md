@@ -80,3 +80,16 @@ https://dribbble.com/shots/24261482-TaskTrek-Project-Management-Tool
 
 - how to set up apollo client: https://medium.com/@sehrawy/how-to-set-up-nextjs-14-with-apollo-client-754a177e0a00
 
+*22/07/24*
+
+- Element implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ PENDING: string; IN_PROGRESS: string; COMPLETED: string; ARCHIVED: string; }'.
+  No index signature with a parameter of type 'string' was found on type '{ PENDING: string; IN_PROGRESS: string; COMPLETED: string; ARCHIVED: string; }' SOLUTION: use type assertion e.g const status: keyof typeof TODO_STATUS 
+
+**TO DO**
+
+*22/07/24*
+
+- Fetch todo for each project
+- Sort and display them accordiong to Todo, inprogress, completed
+- Add nessary seveity tag
+

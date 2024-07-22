@@ -1,4 +1,6 @@
 import Project from "@/app/_models/projectModel";
+import Task from "@/app/_models/taskModel";
+import { PRIORITY_COLORS, TODO_STATUS } from "@/app/lib/constants";
 import { EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Avatar,
@@ -20,9 +22,11 @@ export default async function Page({
   params: { projectId: string };
 }) {
   let project;
+  let tasks: any[];
 
   try {
     project = await Project.findById(params.projectId);
+    tasks = await Task.find({ projectId: params.projectId });
   } catch (e) {
     console.error(e);
   }
@@ -33,21 +37,6 @@ export default async function Page({
     { title: <Link href="//">Project</Link> },
     { title: project?.name },
   ];
-
-  const generateRandomBadge = () => {
-    // Define options for color and count based on levels
-    const options = [
-      { count: "High", color: "red" },
-      { count: "Medium", color: "orange" },
-      { count: "Low", color: "yellow" },
-    ];
-
-    // Randomly select an option
-    const randomIndex = Math.floor(Math.random() * options.length);
-    const { count, color } = options[randomIndex];
-
-    return <Badge count={count} color={color} />;
-  };
 
   const extraButton = (
     <div style={{ display: "flex", gap: 10 }}>
@@ -64,23 +53,37 @@ export default async function Page({
     </div>
   );
 
-  const content = (
-    <div>
-      <Flex justify="space-between" align="center">
-        {generateRandomBadge()}
-        <Button
-          type="text"
-          icon={<EllipsisOutlined />}
-          style={{ backgroundColor: "transparent" }}
-        />
-      </Flex>
+  const Content = ({
+    title,
+    description,
+    priority,
+  }: {
+    title: string;
+    description: string;
+    priority: string;
+  }) => {
+    return (
+      <div>
+        <Flex justify="space-between" align="center">
+          <Badge count={priority} color={PRIORITY_COLORS[priority]} />
+          <Button
+            type="text"
+            icon={<EllipsisOutlined />}
+            style={{ backgroundColor: "transparent" }}
+          />
+        </Flex>
 
-      <Title level={4}>Research</Title>
-      <p>we need to research the items we want to sell on the app</p>
+        <Title level={4}>{title}</Title>
+        <p>{description}</p>
 
-      <Divider />
-    </div>
-  );
+        <Divider />
+      </div>
+    );
+  };
+
+  const filteredTasks = (status: keyof typeof TODO_STATUS) => {
+    return tasks?.filter((task) => task.status === TODO_STATUS[status]);
+  };
 
   return (
     <div>
@@ -93,43 +96,61 @@ export default async function Page({
       </Flex>
 
       <Row gutter={[16, 16]}>
+        {/* To-Do */}
         <Col xs={24} sm={12} md={8} lg={8} xl={8}>
           <Card
             title="To-Do"
             extra={extraButton}
             styles={{ header: { backgroundColor: "#C17FD1" } }}
           >
-            {content}
-            {content}
-            {content}
-            {content}
-            {content}
-            {content}
+            {filteredTasks("PENDING").map((_task) => {
+              return (
+                <Content
+                  key={_task.id}
+                  description={_task.description}
+                  title={_task.title}
+                  priority={_task.priority}
+                />
+              );
+            })}
           </Card>
         </Col>
+        {/* In-Progress */}
         <Col xs={24} sm={12} md={8} lg={8} xl={8}>
           <Card
             title="In Progress"
             extra={extraButton}
             styles={{ header: { backgroundColor: "#FFCC4A" } }}
           >
-            {content}
-            {content}
-            {content}
-            {content}
-            {content}
-            {content}
+            {filteredTasks("IN_PROGRESS").map((_task) => {
+              return (
+                <Content
+                  key={_task.id}
+                  description={_task.description}
+                  title={_task.title}
+                  priority={_task.priority}
+                />
+              );
+            })}
           </Card>
         </Col>
+        {/* Completed */}
         <Col xs={24} sm={12} md={8} lg={8} xl={8}>
           <Card
             title="Completed"
             extra={extraButton}
             styles={{ header: { backgroundColor: "#42B87E" } }}
           >
-            {content}
-            {content}
-            {content}
+            {filteredTasks("COMPLETED").map((_task) => {
+              return (
+                <Content
+                  key={_task.id}
+                  description={_task.description}
+                  title={_task.title}
+                  priority={_task.priority}
+                />
+              );
+            })}
           </Card>
         </Col>
       </Row>
