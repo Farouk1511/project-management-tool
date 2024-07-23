@@ -15,6 +15,7 @@ import {
 } from "antd";
 import Title from "antd/es/typography/Title";
 import Link from "next/link";
+import TaskUtilityButton from "@/app/_components/TaskUtilityButton"
 
 export default async function Page({
   params,
@@ -53,6 +54,19 @@ export default async function Page({
     </div>
   );
 
+  const UtilityButton = () => {
+    "use client";
+
+    return (
+      <Button
+        type="text"
+        icon={<EllipsisOutlined />}
+        style={{ backgroundColor: "transparent" }}
+        onClick={()=>{console.log("CLient side call")}}
+      />
+    );
+  };
+
   const Content = ({
     title,
     description,
@@ -66,11 +80,12 @@ export default async function Page({
       <div>
         <Flex justify="space-between" align="center">
           <Badge count={priority} color={PRIORITY_COLORS[priority]} />
-          <Button
-            type="text"
+           {/* <Button
+           type="text"
             icon={<EllipsisOutlined />}
             style={{ backgroundColor: "transparent" }}
-          />
+          /> */}
+          <TaskUtilityButton/>
         </Flex>
 
         <Title level={4}>{title}</Title>

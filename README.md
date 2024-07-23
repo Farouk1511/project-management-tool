@@ -93,3 +93,8 @@ https://dribbble.com/shots/24261482-TaskTrek-Project-Management-Tool
 - Sort and display them accordiong to Todo, inprogress, completed
 - Add nessary seveity tag
 
+*23/07/24*
+
+- Add functionality to tasks
+- Add ability to move tasks to different status
+- Add ability to delete tasks
