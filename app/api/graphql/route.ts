@@ -7,43 +7,100 @@ import { gql } from "graphql-tag";
 import { NextRequest } from "next/server";
 import { connectToMongoDB } from "@/app/lib/connectDB";
 import Project from "@/app/_models/projectModel";
+import Task from "@/app/_models/taskModel";
+
+interface TaskType {
+  _id: any;
+  title: string;
+  description: string;
+  priority: string;
+  status: string;
+}
 
 //create functions here then call in resolver
-const getProject = async(projectId:any) => {
+const getProject = async (projectId: any) => {
   //conect to db
-  await connectToMongoDB()
-  console.log(projectId)
-  return Project.findById(projectId)
-
-}
+  await connectToMongoDB();
+  return Project.findById(projectId);
+};
 
 const resolvers = {
   Query: {
-    hello: () => "world",
-    getProject: async (_:any,{projectId}:{projectId:any}) => {
-      try{
+    getProject: async (_: any, { projectId }: { projectId: any }) => {
+      try {
         const project = await getProject(projectId);
         return project;
-        
-      }catch(error){
-        console.error("Error fetching project:",error)
-        throw new Error('Failed to fetch project')
+      } catch (error) {
+        console.error("Error fetching project:", error);
+        throw new Error("Failed to fetch project");
+      }
+    },
+  },
+  Mutation: {
+    updateTask: async (
+      _: any,
+      {
+        id,
+        input,
+      }: {
+        id: string;
+        input: {
+          title?: string;
+          description?: string;
+          status?: string;
+          priority?: string;
+          projectId?: string;
+        };
+      }
+    ) => {
+      try {
+        const updatedTask = await Task.findByIdAndUpdate(id, input, {
+          new: true,
+        });
+        return updatedTask;
+      } catch (err) {
+        console.error("Error updating task:", err);
+        throw new Error("Failed to update task");
       }
     },
   },
 };
 
 const typeDefs = gql`
-type Project {
-_id:ID!
-name:String!
-description:String!
-color:String
-}
+  type Project {
+    _id: ID!
+    name: String!
+    description: String!
+    color: String
+  }
 
-type Query {
+  type Task {
+    id: ID!
+    title: String!
+    description: String!
+    status: String!
+    priority: String!
+    projectId: ID
+    project: Project
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  input UpdateTaskInput {
+    title: String!
+    description: String!
+    status: String!
+    priority: String!
+    projectId: ID
+  }
+
+  type Query {
     hello: String
-    getProject(projectId:ID!):Project
+    getProject(projectId: ID!): Project
+  }
+
+  type Mutation {
+    updateTask(id: ID!, input: UpdateTaskInput!): Task
   }
 `;
 
@@ -51,7 +108,6 @@ const server = new ApolloServer({
   resolvers,
   typeDefs,
 });
-
 
 const handler = startServerAndCreateNextHandler<NextRequest>(server);
 
