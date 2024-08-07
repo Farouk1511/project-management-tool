@@ -71,10 +71,12 @@ export default async function Page({
     title,
     description,
     priority,
+    id
   }: {
     title: string;
     description: string;
     priority: string;
+    id:string
   }) => {
     return (
       <div>
@@ -85,7 +87,7 @@ export default async function Page({
             icon={<EllipsisOutlined />}
             style={{ backgroundColor: "transparent" }}
           /> */}
-          <TaskUtilityButton/>
+          <TaskUtilityButton taskId={id}/>
         </Flex>
 
         <Title level={4}>{title}</Title>
@@ -125,6 +127,7 @@ export default async function Page({
                   description={_task.description}
                   title={_task.title}
                   priority={_task.priority}
+                  id={_task.id}
                 />
               );
             })}
@@ -144,6 +147,7 @@ export default async function Page({
                   description={_task.description}
                   title={_task.title}
                   priority={_task.priority}
+                  id={_task.id}
                 />
               );
             })}
@@ -163,6 +167,7 @@ export default async function Page({
                   description={_task.description}
                   title={_task.title}
                   priority={_task.priority}
+                  id={_task.id}
                 />
               );
             })}

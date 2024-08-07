@@ -11,35 +11,36 @@ import {
   PieChartOutlined,
 } from "@ant-design/icons";
 import type { MenuProps } from "antd";
+import Link from "next/link";
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-const items: MenuItem[] = [
-  {
-    key: "sub1",
-    label: <EllipsisOutlined />,
-    children: [
-      {
-        key: "5",
-        label: "Edit",
-        onClick: () => {
-          console.log("task edited");
+const TaskUtilityButton = ({ taskId }:{taskId : string}) => {
+  const items: MenuItem[] = [
+    {
+      key: "update-delete",
+      label: <EllipsisOutlined />,
+      children: [
+        {
+          key: "update",
+          label: <Link href={`/task/update/${taskId}`}>Update</Link>,
+          onClick: () => {
+            console.log("task updateed");
+          },
         },
-      },
-      {
-        key: "6",
-        label: "Delete",
-        onClick: () => {
-          console.log("task deleted");
+        {
+          key: "delete",
+          label: <Link href={`/task/delete/${taskId}`}>Delete</Link>,
+          onClick: () => {
+            console.log("task deleted");
+          },
         },
-      },
-      // { key: "7", label: "Option 7" },
-      // { key: "8", label: "Option 8" },
-    ],
-  },
-];
+        // { key: "7", label: "Option 7" },
+        // { key: "8", label: "Option 8" },
+      ],
+    },
+  ];
 
-const TaskUtilityButton = ({}) => {
   return (
     <Menu
       style={{ backgroundColor: "transparent" }}

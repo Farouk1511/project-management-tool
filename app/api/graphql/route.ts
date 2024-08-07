@@ -35,6 +35,16 @@ const resolvers = {
         throw new Error("Failed to fetch project");
       }
     },
+    getTask: async (_:any, {taskId}:{taskId:any}) => {
+      try{
+        await connectToMongoDB()
+        const task = await Task.findById(taskId)
+        return task
+      }catch(err){
+        console.error("Error fetching tasks")
+        throw new Error("Failed to fetch tasks")
+      }
+    }
   },
   Mutation: {
     updateTask: async (
@@ -97,6 +107,7 @@ const typeDefs = gql`
   type Query {
     hello: String
     getProject(projectId: ID!): Project
+    getTask(taskId: ID!):Task
   }
 
   type Mutation {
