@@ -1,12 +1,9 @@
 "use client";
 import { Button, Form, Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { createTask } from "@/app/lib/actions";
-import { useEffect, useState } from "react";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { TASK_PRIORITY, TODO_STATUS } from "@/app/lib/constants";
-import Task from "@/app/_models/taskModel";
 
 export default function Page({ params }: { params: { taskId: string } }) {
   const [form] = Form.useForm();
@@ -39,34 +36,62 @@ export default function Page({ params }: { params: { taskId: string } }) {
     }
   `;
 
+  const UPDATE_TASK_QUERY = gql`
+  mutation UpdateTask($id: ID!, $input: UpdateTaskInput!) {
+  updateTask(id:$id, input:$input) {
+    id
+    title
+    description
+    status
+    priority
+    projectId
+    createdAt
+    updatedAt
+  }
+} 
+  `
+
   const { loading, error, data } = useQuery(query, {
     variables: { taskId: params.taskId },
     skip: !params.taskId,
   });
 
+  const [updateTask] = useMutation(UPDATE_TASK_QUERY,{
+    onCompleted: () => {
+        console.log("Task updated secessfully")
+        form.resetFields()
+    },
+    onError: (error)=>{
+        console.error("Error updating task",error)
+    }
+  })
 
-  //   const onFinish = async (formData: FormData) => {
-  //     try {
-  //       console.log("Form Data:", formData);
-  //       await createTask(formData);
-  //       console.log("Project created successfully!");
-  //       form.resetFields(); // Optionally reset form fields on successful submission
-  //     } catch (error) {
-  //       console.error("Error creating project:", error);
-  //       // Implement error handling or feedback to the user
-  //     }
-  //   };
+  const onFinish = (formData:any) => {
+    console.log(formData)
+    updateTask({
+        variables:{
+            id:params.taskId,
+            input: {
+                title: formData.title,
+                description: formData.description,
+                status: formData.status,
+                priority: formData.priority,
+              }
+        }
+    })
+  }
+
   return loading ? (
     <p> loading...</p>
   ) : (
     <div>
-      <h1>Create a new Task</h1>
-      <p>Create a new task for your project!</p>
+      <h1>Update Task</h1>
+      <p>Make changes to your task!</p>
 
       <Form
         layout="vertical"
         form={form}
-        onFinish={() => {}}
+        onFinish={onFinish}
         initialValues={{
           ...data.getTask,
           
