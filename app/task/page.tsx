@@ -1,18 +1,19 @@
 import Task from "../_models/taskModel";
 import TaskTable from "../_components/TaskTable";
 import { DataType } from "../lib/types";
+import ConfirmDeletion from "../_components/ConfirmDeletion";
 
-export default async function Page() {
+export default async function Page({ searchParams }:{searchParams:{delete:string}}) {
   //title
   //description
   //status
   //priority
   //created
   //project
+
   let tasks = (await Task.find().populate("project").exec()).reverse();
 
-  const data: DataType[] = tasks.map((task) => {
-    console.log(task);
+  let data: DataType[] = tasks.map((task) => {
     let taskObj: DataType = {
       key: task._id,
       title: task.title,
@@ -27,9 +28,14 @@ export default async function Page() {
     return taskObj;
   });
 
+  data = JSON.parse(JSON.stringify(data));
+
   return (
     <>
       <TaskTable data={data} />
+      <ConfirmDeletion
+        id={searchParams?.delete}
+      />
     </>
   );
 }
