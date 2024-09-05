@@ -4,9 +4,11 @@ import TextArea from "antd/es/input/TextArea";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import { TASK_PRIORITY, TODO_STATUS } from "@/app/lib/constants";
+import { useRouter } from "next/navigation";
 
 export default function Page({ params }: { params: { taskId: string } }) {
   const [form] = Form.useForm();
+  const router = useRouter()
 
   const statusOptions = [
     { value: TODO_STATUS.PENDING, label: "To-do" },
@@ -60,6 +62,8 @@ export default function Page({ params }: { params: { taskId: string } }) {
     onCompleted: () => {
         console.log("Task updated secessfully")
         form.resetFields()
+        router.prefetch('/task')
+        router.back()
     },
     onError: (error)=>{
         console.error("Error updating task",error)
@@ -67,7 +71,6 @@ export default function Page({ params }: { params: { taskId: string } }) {
   })
 
   const onFinish = (formData:any) => {
-    console.log(formData)
     updateTask({
         variables:{
             id:params.taskId,

@@ -22,8 +22,8 @@ export const createProject = async (formData:any) => {
         newProject.save();
         // Triggering revalidation of the specified path ("/")
         revalidatePath("/","layout");
-        // Returning the string representation of the new todo
-        return newProject.toString();
+        // Returning project id
+        return newProject.id
     } catch (error) {
         console.log(error);
         return {message: 'error creating Project'};

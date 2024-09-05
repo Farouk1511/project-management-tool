@@ -73,6 +73,16 @@ const resolvers = {
         throw new Error("Failed to update task");
       }
     },
+
+    deleteTask: async (_:any, {id}:{id:string}) => {
+      try{
+        const deletedTask = await Task.findByIdAndDelete(id)
+        return deletedTask
+      }catch(err){
+        console.log("Error deleting task",err)
+        throw new Error("Error deleting task")
+      }
+    }
   },
 };
 
@@ -112,6 +122,7 @@ const typeDefs = gql`
 
   type Mutation {
     updateTask(id: ID!, input: UpdateTaskInput!): Task
+    deleteTask(id: ID!):Task!
   }
 `;
 
