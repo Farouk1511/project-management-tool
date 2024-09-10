@@ -1,5 +1,5 @@
 "use client";
-import { Button, Form, Input, Select } from "antd";
+import { Breadcrumb, Button, Form, Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { createTask } from "@/app/lib/actions";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import { TASK_PRIORITY, TODO_STATUS } from "@/app/lib/constants";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function NewProject({
   params,
@@ -15,7 +16,7 @@ export default function NewProject({
 }) {
   const [form] = Form.useForm();
   const [projectName, setProjectName] = useState<string>("");
-  const router = useRouter()
+  const router = useRouter();
 
   const statusOptions = [
     { value: TODO_STATUS.PENDING, label: "To-do" },
@@ -41,26 +42,33 @@ export default function NewProject({
   const { loading, error, data } = useQuery(query, {
     variables: { projectId: params.projectId },
     skip: !params.projectId,
-    onCompleted: (data) =>  { 
-      setProjectName(data?.getProject.name)
+    onCompleted: (data) => {
+      setProjectName(data?.getProject.name);
     },
   });
-  
+
   const onFinish = async (formData: FormData) => {
     try {
       console.log("Form Data:", formData);
       await createTask(formData);
       console.log("Project created successfully!");
       form.resetFields(); // Optionally reset form fields on successful submission
-      router.push(`/project/${params?.projectId}`)
+      router.push(`/project/${params?.projectId}`);
     } catch (error) {
       console.error("Error creating project:", error);
       // Implement error handling or feedback to the user
     }
   };
 
+  let items = [
+    { title: <Link href="//">Home</Link> },
+    { title: <Link href="/task">Tasks</Link> },
+    { title: "New" },
+  ];
   return (
     <div>
+      <Breadcrumb items={items} />
+
       <h1>Create a new Task</h1>
       <p>Create a new task for your project!</p>
 
@@ -74,7 +82,7 @@ export default function NewProject({
           <Input disabled placeholder={projectName} />
         </Form.Item>
         <Form.Item label="Project ID" name="projectId" initialValue={123}>
-          <Input  disabled />
+          <Input disabled />
         </Form.Item>
         <Form.Item
           label="Task Title"

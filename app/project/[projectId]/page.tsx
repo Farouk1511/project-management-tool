@@ -92,11 +92,16 @@ export default async function Page({
   return (
     <div>
       <Breadcrumb items={items} />
-      <Flex align="center" justify="space-between">
-        <div>
-
-        <Title level={1}>{project?.name}</Title>
-        <Title level={5}>{project?.description}</Title>
+      <Flex
+        align="center"
+        justify="space-between"
+        style={{ marginBottom: "20px", width: "100%" }}
+      >
+        <div style={{ width: "100%" }}>
+          <Title level={1}>{project?.name}</Title>
+          <Title level={5} style={{ width: "70%" }}>
+            {project?.description}
+          </Title>
         </div>
         <Link href={`/task/new/${params.projectId}`}>
           <Button>Create task</Button>
@@ -154,7 +159,7 @@ export default async function Page({
             <Card
               title="Completed"
               extra={extraButton}
-              styles={{ header: { backgroundColor: "#42B87E",border:"0" } }}
+              styles={{ header: { backgroundColor: "#42B87E", border: "0" } }}
             >
               {filteredTasks("COMPLETED").map((_task) => {
                 return (

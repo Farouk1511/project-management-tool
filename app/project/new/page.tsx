@@ -1,8 +1,9 @@
 "use client";
-import { Button, Form, Input } from "antd";
+import { Breadcrumb, Button, Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { createProject } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function NewProject() {
   const [form] = Form.useForm();
@@ -24,8 +25,16 @@ export default function NewProject() {
     }
   };
 
+  let items = [
+    { title: <Link href="//">Home</Link> },
+    { title: <Link href="//">Project</Link> },
+    { title: "New Project"},
+  ];
+
   return (
     <div>
+      <Breadcrumb items={items}/>
+
       <h1>Create a new project</h1>
       <p>Create a new project and begin tracking tasks!</p>
 

@@ -97,4 +97,18 @@ https://dribbble.com/shots/24261482-TaskTrek-Project-Management-Tool
 
 - Add functionality to tasks - done
 - Add ability to move tasks to different status - done
-- Add ability to delete tasks - inprogress
+- Add ability to delete tasks - done
+
+*10/09/24*
+
+- Add breadcrumbs to pages - done
+- Ability to go home when the main Icon/application name is clicked - done
+- Add description to Project page - done
+
+*Update*
+
+I have started using the application to track tasks for projects. I started using it to track it self. Overall barebone application functions as intended. Now need to advanced it bit by bit till we have something stable anyone or friends can use.
+
+![alt text](app0.0_look.png)
+
+

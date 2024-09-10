@@ -1,14 +1,16 @@
 "use client";
-import { Button, Form, Input, Select } from "antd";
+import { Breadcrumb, Button, Form, Input, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
 import { TASK_PRIORITY, TODO_STATUS } from "@/app/lib/constants";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { revalidatePath } from "next/cache";
 
 export default function Page({ params }: { params: { taskId: string } }) {
   const [form] = Form.useForm();
-  const router = useRouter()
+  const router = useRouter();
 
   const statusOptions = [
     { value: TODO_STATUS.PENDING, label: "To-do" },
@@ -39,55 +41,62 @@ export default function Page({ params }: { params: { taskId: string } }) {
   `;
 
   const UPDATE_TASK_QUERY = gql`
-  mutation UpdateTask($id: ID!, $input: UpdateTaskInput!) {
-  updateTask(id:$id, input:$input) {
-    id
-    title
-    description
-    status
-    priority
-    projectId
-    createdAt
-    updatedAt
-  }
-} 
-  `
+    mutation UpdateTask($id: ID!, $input: UpdateTaskInput!) {
+      updateTask(id: $id, input: $input) {
+        id
+        title
+        description
+        status
+        priority
+        projectId
+        createdAt
+        updatedAt
+      }
+    }
+  `;
 
   const { loading, error, data } = useQuery(query, {
     variables: { taskId: params.taskId },
     skip: !params.taskId,
   });
 
-  const [updateTask] = useMutation(UPDATE_TASK_QUERY,{
+  const [updateTask] = useMutation(UPDATE_TASK_QUERY, {
     onCompleted: () => {
-        console.log("Task updated secessfully")
-        form.resetFields()
-        router.prefetch('/task')
-        router.back()
+      console.log("Task updated secessfully");
+      form.resetFields();
+      router.push("/task");
+      revalidatePath('/task')
     },
-    onError: (error)=>{
-        console.error("Error updating task",error)
-    }
-  })
+    onError: (error) => {
+      console.error("Error updating task", error);
+    },
+  });
 
-  const onFinish = (formData:any) => {
+  const onFinish = (formData: any) => {
     updateTask({
-        variables:{
-            id:params.taskId,
-            input: {
-                title: formData.title,
-                description: formData.description,
-                status: formData.status,
-                priority: formData.priority,
-              }
-        }
-    })
-  }
+      variables: {
+        id: params.taskId,
+        input: {
+          title: formData.title,
+          description: formData.description,
+          status: formData.status,
+          priority: formData.priority,
+        },
+      },
+    });
+  };
+
+  let items = [
+    { title: <Link href="//">Home</Link> },
+    { title: <Link href="/task">Tasks</Link> },
+    { title: "Update" },
+  ];
 
   return loading ? (
     <p> loading...</p>
   ) : (
     <div>
+      <Breadcrumb items={items} />
       <h1>Update Task</h1>
       <p>Make changes to your task!</p>
 
@@ -97,17 +106,12 @@ export default function Page({ params }: { params: { taskId: string } }) {
         onFinish={onFinish}
         initialValues={{
           ...data.getTask,
-          
         }}
       >
         <Form.Item label="Project Name" name="name">
           <Input disabled placeholder={"project Name"} />
         </Form.Item>
-        <Form.Item
-          label="Project ID"
-          name="projectId"
-          
-        >
+        <Form.Item label="Project ID" name="projectId">
           <Input disabled />
         </Form.Item>
         <Form.Item
