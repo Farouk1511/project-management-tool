@@ -16,7 +16,7 @@ export default async function Members() {
   // console.log(data)
 
   let items = [
-    { title: <Link href="//">Home</Link> },
+    { title: <Link passHref href="//">Home</Link> },
     { title: "Members" },
   ];
 

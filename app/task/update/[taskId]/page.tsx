@@ -64,8 +64,8 @@ export default function Page({ params }: { params: { taskId: string } }) {
     onCompleted: () => {
       console.log("Task updated secessfully");
       form.resetFields();
-      router.push("/task");
-      revalidatePath('/task')
+      router.back()
+      router.refresh()
     },
     onError: (error) => {
       console.error("Error updating task", error);
@@ -87,8 +87,20 @@ export default function Page({ params }: { params: { taskId: string } }) {
   };
 
   let items = [
-    { title: <Link href="//">Home</Link> },
-    { title: <Link href="/task">Tasks</Link> },
+    {
+      title: (
+        <Link passHref href="//">
+          Home
+        </Link>
+      ),
+    },
+    {
+      title: (
+        <Link passHref href="/task">
+          Tasks
+        </Link>
+      ),
+    },
     { title: "Update" },
   ];
 

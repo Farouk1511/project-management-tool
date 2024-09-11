@@ -22,7 +22,7 @@ export default async function SideMenu() {
     return {
       key: `/project/${project.id}`,
       label: (
-        <Link href={`/project/${project.id}`}>
+        <Link passHref href={`/project/${project.id}`}>
           <Badge color={`${project.color}`} text={`${project.name}`} />
         </Link>
       ),
@@ -38,7 +38,7 @@ export default async function SideMenu() {
         {
           key: "/project/new",
           icon: <PlusCircleOutlined />,
-          label: <Link href={"/project/new"}>Create new Project</Link>,
+          label: <Link passHref href={"/project/new"}>Create new Project</Link>,
         },
       ],
     },
@@ -50,22 +50,22 @@ export default async function SideMenu() {
         {
           key: "//",
           icon: <HomeOutlined />,
-          label: <Link href={"//"}>Home</Link>,
+          label: <Link passHref href={"//"}>Home</Link>,
         },
         {
           key: "/task",
           icon: <ProfileOutlined />,
-          label: <Link href={"/task"}>Tasks</Link>,
+          label: <Link passHref href={"/task"}>Tasks</Link>,
         },
         {
           key: "/members",
           icon: <UsergroupAddOutlined />,
-          label: <Link href={"/members"}>Members</Link>,
+          label: <Link passHref href={"/members"}>Members</Link>,
         },
         {
           key: "/dashboard",
           icon: <DashboardOutlined />,
-          label: <Link href={"/dashboard"}>Dashboard</Link>,
+          label: <Link passHref href={"/dashboard"}>Dashboard</Link>,
         },
       ],
     },
@@ -91,7 +91,7 @@ export default async function SideMenu() {
         bottom: 0,
       }}
     >
-      <Link href={"/"}>
+      <Link passHref href={"/"}>
         <Title level={5} style={{ marginBottom: 30 }}>
           Project Management Tool
         </Title>

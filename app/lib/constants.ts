@@ -3,14 +3,14 @@ export const TODO_STATUS = {
     IN_PROGRESS: 'In Progress',
     COMPLETED: 'Completed',
     ARCHIVED: 'Archived',
-  };
+  } ;
   
   export const TASK_PRIORITY = {
     LOW: 'Low',
     MEDIUM: 'Medium',
     HIGH: 'High',
     CRITICAL: 'Critical',
-  };
+  } ;
 
   export const STATUS_COLORS = {
   [TODO_STATUS.PENDING]: '#FFD700', // Gold

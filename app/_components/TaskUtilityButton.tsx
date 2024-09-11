@@ -23,14 +23,14 @@ const TaskUtilityButton = ({ taskId }:{taskId : string}) => {
       children: [
         {
           key: "update",
-          label: <Link href={`/task/update/${taskId}`}>Update</Link>,
+          label: <Link passHref href={`/task/update/${taskId}`}>Update</Link>,
           onClick: () => {
             console.log("task updateed");
           },
         },
         {
           key: "delete",
-          label: <Link href={`/task/delete/${taskId}`}>Delete</Link>,
+          label: <Link passHref href={`/task/delete/${taskId}`}>Delete</Link>,
           onClick: () => {
             console.log("task deleted");
           },

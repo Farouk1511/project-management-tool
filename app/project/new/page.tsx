@@ -26,8 +26,8 @@ export default function NewProject() {
   };
 
   let items = [
-    { title: <Link href="//">Home</Link> },
-    { title: <Link href="//">Project</Link> },
+    { title: <Link passHref href="//">Home</Link> },
+    { title: <Link passHref href="//">Project</Link> },
     { title: "New Project"},
   ];
 

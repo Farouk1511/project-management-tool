@@ -34,25 +34,43 @@ export default async function Page({
 
   let { Group } = Avatar;
   let items = [
-    { title: <Link href="//">Home</Link> },
-    { title: <Link href="//">Project</Link> },
+    {
+      title: (
+        <Link passHref href="//">
+          Home
+        </Link>
+      ),
+    },
+    {
+      title: (
+        <Link passHref href="//">
+          Project
+        </Link>
+      ),
+    },
     { title: project?.name },
   ];
 
-  const extraButton = (
-    <div style={{ display: "flex", gap: 10 }}>
-      <Button
-        type="text"
-        icon={<EllipsisOutlined />}
-        style={{ backgroundColor: "transparent" }}
-      />
-      <Button
-        type="text"
-        icon={<PlusOutlined />}
-        style={{ backgroundColor: "transparent" }}
-      />
-    </div>
-  );
+  const ExtraButton = async({ status }: { status: string }) => {
+    "use server";
+    return (
+      <div style={{ display: "flex", gap: 10 }}>
+        <Button
+          type="text"
+          icon={<EllipsisOutlined />}
+          style={{ backgroundColor: "transparent" }}
+        />
+
+        <Link href={`/task/new/${params.projectId}?status=${status}`} passHref>
+          <Button
+            type="text"
+            icon={<PlusOutlined />}
+            style={{ backgroundColor: "transparent" }}
+          />
+        </Link>
+      </div>
+    );
+  };
 
   const Content = ({
     title,
@@ -85,8 +103,8 @@ export default async function Page({
     );
   };
 
-  const filteredTasks = (status: keyof typeof TODO_STATUS) => {
-    return tasks?.filter((task) => task.status === TODO_STATUS[status]);
+  const filteredTasks = (status:typeof TODO_STATUS[keyof typeof TODO_STATUS]) => {
+    return tasks?.filter((task) => task.status === status);
   };
 
   return (
@@ -103,21 +121,21 @@ export default async function Page({
             {project?.description}
           </Title>
         </div>
-        <Link href={`/task/new/${params.projectId}`}>
+        <Link passHref href={`/task/new/${params.projectId}`}>
           <Button>Create task</Button>
         </Link>
       </Flex>
 
       <Row gutter={[16, 16]}>
         {/* To-Do */}
-        {filteredTasks("PENDING").length > 0 && (
+        {filteredTasks(TODO_STATUS.PENDING).length > 0 && (
           <Col xs={24} sm={12} md={8} lg={8} xl={8}>
             <Card
               title="To-Do"
-              extra={extraButton}
+              extra={<ExtraButton status={TODO_STATUS.PENDING} />}
               styles={{ header: { backgroundColor: "#C17FD1" } }}
             >
-              {filteredTasks("PENDING").map((_task) => {
+              {filteredTasks(TODO_STATUS.PENDING).map((_task) => {
                 return (
                   <Content
                     key={_task.id}
@@ -132,14 +150,14 @@ export default async function Page({
           </Col>
         )}
         {/* In-Progress */}
-        {filteredTasks("IN_PROGRESS").length > 0 && (
+        {filteredTasks(TODO_STATUS.IN_PROGRESS).length > 0 && (
           <Col xs={24} sm={12} md={8} lg={8} xl={8}>
             <Card
               title="In Progress"
-              extra={extraButton}
+              extra={<ExtraButton status={TODO_STATUS.IN_PROGRESS} />}
               styles={{ header: { backgroundColor: "#FFCC4A" } }}
             >
-              {filteredTasks("IN_PROGRESS").map((_task) => {
+              {filteredTasks(TODO_STATUS.IN_PROGRESS).map((_task) => {
                 return (
                   <Content
                     key={_task.id}
@@ -154,14 +172,14 @@ export default async function Page({
           </Col>
         )}
         {/* Completed */}
-        {filteredTasks("COMPLETED").length > 0 && (
+        {filteredTasks(TODO_STATUS.COMPLETED).length > 0 && (
           <Col xs={24} sm={12} md={8} lg={8} xl={8}>
             <Card
               title="Completed"
-              extra={extraButton}
+              extra={<ExtraButton status={TODO_STATUS.COMPLETED} />}
               styles={{ header: { backgroundColor: "#42B87E", border: "0" } }}
             >
-              {filteredTasks("COMPLETED").map((_task) => {
+              {filteredTasks(TODO_STATUS.COMPLETED).map((_task) => {
                 return (
                   <Content
                     key={_task.id}

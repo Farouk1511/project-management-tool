@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/client";
 import { TASK_PRIORITY, TODO_STATUS } from "@/app/lib/constants";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function NewProject({
@@ -17,6 +17,11 @@ export default function NewProject({
   const [form] = Form.useForm();
   const [projectName, setProjectName] = useState<string>("");
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  //optional params
+  const priorityParam = searchParams.get("priority");
+  const statusParam = searchParams.get("status");
 
   const statusOptions = [
     { value: TODO_STATUS.PENDING, label: "To-do" },
@@ -61,8 +66,20 @@ export default function NewProject({
   };
 
   let items = [
-    { title: <Link href="//">Home</Link> },
-    { title: <Link href="/task">Tasks</Link> },
+    {
+      title: (
+        <Link passHref href="//">
+          Home
+        </Link>
+      ),
+    },
+    {
+      title: (
+        <Link passHref href="/task">
+          Tasks
+        </Link>
+      ),
+    },
     { title: "New" },
   ];
   return (
@@ -71,12 +88,14 @@ export default function NewProject({
 
       <h1>Create a new Task</h1>
       <p>Create a new task for your project!</p>
-
       <Form
         layout="vertical"
         form={form}
         onFinish={onFinish}
-        initialValues={{ projectId: params.projectId }}
+        initialValues={{
+          projectId: params.projectId,
+          status: statusParam ?? TODO_STATUS.PENDING,
+        }}
       >
         <Form.Item label="Project Name" name="name">
           <Input disabled placeholder={projectName} />
@@ -103,22 +122,15 @@ export default function NewProject({
           name="status"
           rules={[{ required: true, message: "Please enter task status" }]}
         >
-          <Select
-            style={{ width: 150 }}
-            options={statusOptions}
-            defaultValue={TODO_STATUS.PENDING}
-          ></Select>
+          <Select style={{ width: 150 }} options={statusOptions}></Select>
         </Form.Item>
         <Form.Item
           label="Priority"
           name="priority"
           rules={[{ required: true, message: "Please enter task priority" }]}
+          initialValue={TASK_PRIORITY.MEDIUM}
         >
-          <Select
-            style={{ width: 150 }}
-            options={priorityOptions}
-            defaultValue={TASK_PRIORITY.MEDIUM}
-          ></Select>
+          <Select style={{ width: 150 }} options={priorityOptions}></Select>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">

@@ -37,7 +37,7 @@ export default async function Page({
   data = JSON.parse(JSON.stringify(data));
 
   let items = [
-    { title: <Link href="//">Home</Link> },
+    { title: <Link passHref href="//">Home</Link> },
     { title: "Tasks" },
   ];
 

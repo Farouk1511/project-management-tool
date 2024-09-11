@@ -111,4 +111,9 @@ I have started using the application to track tasks for projects. I started usin
 
 ![alt text](app0.0_look.png)
 
+*11/09/24*
+
+- Add functionality to the Todo list holders (To-do, In progress, Completed) - done
+- Fix issue when creating new task with status and priority - done
+
 

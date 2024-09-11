@@ -58,8 +58,8 @@ export default function TaskTable({ data }: { data: DataType[] }) {
       key: "action",
       render: (_, record) => (
         <Space size="middle">
-          <Link href={`/task/update/${record.key}`}>Update</Link>
-          <Link href={`?delete=${record.key}`}>Delete</Link>
+          <Link passHref href={`/task/update/${record.key}`}>Update</Link>
+          <Link passHref href={`?delete=${record.key}`}>Delete</Link>
         </Space>
       ),
     },
