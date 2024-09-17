@@ -4,6 +4,7 @@ import { DataType } from "../lib/types";
 import ConfirmDeletion from "../_components/ConfirmDeletion";
 import { Breadcrumb } from "antd";
 import Link from "next/link";
+import { connectToMongoDB } from "../lib/connectDB";
 
 export default async function Page({
   searchParams,
@@ -16,8 +17,14 @@ export default async function Page({
   //priority
   //created
   //project
-
-  let tasks = (await Task.find().populate("project").exec()).reverse();
+  let tasks;
+  try {
+    await connectToMongoDB()
+    tasks = (await Task.find().populate("project").exec()).reverse();
+  } catch (e) {
+    console.log(e);
+    throw new Error("error in task");
+  }
 
   let data: DataType[] = tasks.map((task) => {
     let taskObj: DataType = {
@@ -37,7 +44,13 @@ export default async function Page({
   data = JSON.parse(JSON.stringify(data));
 
   let items = [
-    { title: <Link passHref href="//">Home</Link> },
+    {
+      title: (
+        <Link passHref href="//">
+          Home
+        </Link>
+      ),
+    },
     { title: "Tasks" },
   ];
 

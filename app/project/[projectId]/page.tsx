@@ -16,6 +16,7 @@ import {
 import Title from "antd/es/typography/Title";
 import Link from "next/link";
 import TaskUtilityButton from "@/app/_components/TaskUtilityButton";
+import { connectToMongoDB } from "@/app/lib/connectDB";
 
 export default async function Page({
   params,
@@ -26,6 +27,7 @@ export default async function Page({
   let tasks: any[];
 
   try {
+    await connectToMongoDB()
     project = await Project.findById(params.projectId);
     tasks = await Task.find({ projectId: params.projectId });
   } catch (e) {
@@ -128,14 +130,14 @@ export default async function Page({
 
       <Row gutter={[16, 16]}>
         {/* To-Do */}
-        {filteredTasks(TODO_STATUS.PENDING).length > 0 && (
+        {filteredTasks(TODO_STATUS.PENDING)?.length > 0 && (
           <Col xs={24} sm={12} md={8} lg={8} xl={8}>
             <Card
               title="To-Do"
               extra={<ExtraButton status={TODO_STATUS.PENDING} />}
               styles={{ header: { backgroundColor: "#C17FD1" } }}
             >
-              {filteredTasks(TODO_STATUS.PENDING).map((_task) => {
+              {filteredTasks(TODO_STATUS.PENDING)?.map((_task) => {
                 return (
                   <Content
                     key={_task.id}
@@ -150,14 +152,14 @@ export default async function Page({
           </Col>
         )}
         {/* In-Progress */}
-        {filteredTasks(TODO_STATUS.IN_PROGRESS).length > 0 && (
+        {filteredTasks(TODO_STATUS.IN_PROGRESS)?.length > 0 && (
           <Col xs={24} sm={12} md={8} lg={8} xl={8}>
             <Card
               title="In Progress"
               extra={<ExtraButton status={TODO_STATUS.IN_PROGRESS} />}
               styles={{ header: { backgroundColor: "#FFCC4A" } }}
             >
-              {filteredTasks(TODO_STATUS.IN_PROGRESS).map((_task) => {
+              {filteredTasks(TODO_STATUS.IN_PROGRESS)?.map((_task) => {
                 return (
                   <Content
                     key={_task.id}
@@ -172,14 +174,14 @@ export default async function Page({
           </Col>
         )}
         {/* Completed */}
-        {filteredTasks(TODO_STATUS.COMPLETED).length > 0 && (
+        {filteredTasks(TODO_STATUS.COMPLETED)?.length > 0 && (
           <Col xs={24} sm={12} md={8} lg={8} xl={8}>
             <Card
               title="Completed"
               extra={<ExtraButton status={TODO_STATUS.COMPLETED} />}
               styles={{ header: { backgroundColor: "#42B87E", border: "0" } }}
             >
-              {filteredTasks(TODO_STATUS.COMPLETED).map((_task) => {
+              {filteredTasks(TODO_STATUS.COMPLETED)?.map((_task) => {
                 return (
                   <Content
                     key={_task.id}
