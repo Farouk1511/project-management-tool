@@ -38,7 +38,7 @@ export default async function SideMenu() {
         {
           key: "/project/new",
           icon: <PlusCircleOutlined />,
-          label: <Link passHref href={"/project/new"}>Create new Project</Link>,
+          label: <Link passHref href={"/project/new"}>Create New Project</Link>,
         },
       ],
     },

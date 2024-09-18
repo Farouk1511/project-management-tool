@@ -1,5 +1,5 @@
 "use client";
-import { Breadcrumb, Button, Form, Input } from "antd";
+import { Breadcrumb, Button, ColorPicker, Form, Input } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { createProject } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ export default function NewProject() {
       const projectId = await createProject(formData);
 
       // Optionally reset form fields on successful submission
-      form.resetFields(); 
+      form.resetFields();
 
       router.push(`/project/${projectId}`);
 
@@ -26,14 +26,26 @@ export default function NewProject() {
   };
 
   let items = [
-    { title: <Link passHref href="//">Home</Link> },
-    { title: <Link passHref href="//">Project</Link> },
-    { title: "New Project"},
+    {
+      title: (
+        <Link passHref href="//">
+          Home
+        </Link>
+      ),
+    },
+    {
+      title: (
+        <Link passHref href="//">
+          Project
+        </Link>
+      ),
+    },
+    { title: "New Project" },
   ];
 
   return (
     <div>
-      <Breadcrumb items={items}/>
+      <Breadcrumb items={items} />
 
       <h1>Create a new project</h1>
       <p>Create a new project and begin tracking tasks!</p>
@@ -55,6 +67,9 @@ export default function NewProject() {
         >
           <TextArea placeholder="Description of the project" />
         </Form.Item>
+        {/* <Form.Item label="Color" name="color" initialValue={"grey"}>
+          <ColorPicker defaultFormat="hex" format="hex" trigger="hover"/>
+        </Form.Item> */}
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Create

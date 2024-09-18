@@ -116,4 +116,12 @@ I have started using the application to track tasks for projects. I started usin
 - Add functionality to the Todo list holders (To-do, In progress, Completed) - done
 - Fix issue when creating new task with status and priority - done
 
+*17/09/24*
 
+- Fix issue in production where links are not functioning properly - done
+- Issue was due to not calling DB in each server side function. THought a global cll would initalize the db but i guess i wa wrong. Calling the ConnectToMongoDB fixed the issue. 
+
+*18/09/24*
+
+- Make home page dynamic - done
+- Add ability to decide what color for new projects - in progress

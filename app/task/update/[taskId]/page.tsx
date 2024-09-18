@@ -6,7 +6,6 @@ import { useMutation, useQuery } from "@apollo/client";
 import { TASK_PRIORITY, TODO_STATUS } from "@/app/lib/constants";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { revalidatePath } from "next/cache";
 
 export default function Page({ params }: { params: { taskId: string } }) {
   const [form] = Form.useForm();
@@ -64,8 +63,7 @@ export default function Page({ params }: { params: { taskId: string } }) {
     onCompleted: () => {
       console.log("Task updated secessfully");
       form.resetFields();
-      router.back()
-      router.refresh()
+      router.push('/task')
     },
     onError: (error) => {
       console.error("Error updating task", error);
