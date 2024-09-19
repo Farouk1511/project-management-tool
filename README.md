@@ -124,4 +124,7 @@ I have started using the application to track tasks for projects. I started usin
 *18/09/24*
 
 - Make home page dynamic - done
-- Add ability to decide what color for new projects - in progress
+- Add ability to decide what color for new projects - done
+
+*19/09/24*
+- Ability to Create, Read, Update and Delete Project related pages - in progress

@@ -1,7 +1,11 @@
 import Project from "@/app/_models/projectModel";
 import Task from "@/app/_models/taskModel";
 import { PRIORITY_COLORS, TODO_STATUS } from "@/app/lib/constants";
-import { EllipsisOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  EllipsisOutlined,
+  PlusOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 import {
   Avatar,
   Badge,
@@ -12,11 +16,13 @@ import {
   Row,
   Col,
   Flex,
+  Dropdown,
 } from "antd";
 import Title from "antd/es/typography/Title";
 import Link from "next/link";
 import TaskUtilityButton from "@/app/_components/TaskUtilityButton";
 import { connectToMongoDB } from "@/app/lib/connectDB";
+import type { MenuProps } from "antd";
 
 export default async function Page({
   params,
@@ -27,7 +33,7 @@ export default async function Page({
   let tasks: any[];
 
   try {
-    await connectToMongoDB()
+    await connectToMongoDB();
     project = await Project.findById(params.projectId);
     tasks = await Task.find({ projectId: params.projectId });
   } catch (e) {
@@ -53,7 +59,7 @@ export default async function Page({
     { title: project?.name },
   ];
 
-  const ExtraButton = async({ status }: { status: string }) => {
+  const ExtraButton = async ({ status }: { status: string }) => {
     "use server";
     return (
       <div style={{ display: "flex", gap: 10 }}>
@@ -105,13 +111,45 @@ export default async function Page({
     );
   };
 
-  const filteredTasks = (status:typeof TODO_STATUS[keyof typeof TODO_STATUS]) => {
+  const Settings = () => {
+
+    const items: MenuProps['items'] = [
+      {
+        key: "update",
+        label: (
+         "Hello"
+        ),
+       
+      },
+      {
+        key: "delete",
+        label: (
+          "World"
+        ),
+        danger: true,
+        
+      },
+    ];
+
+    return (
+      <Dropdown menu={{items}}>
+        <SettingOutlined />
+      </Dropdown>
+    );
+  };
+
+  const filteredTasks = (
+    status: (typeof TODO_STATUS)[keyof typeof TODO_STATUS]
+  ) => {
     return tasks?.filter((task) => task.status === status);
   };
 
   return (
     <div>
-      <Breadcrumb items={items} />
+      <Flex align="center" justify="space-between">
+        <Breadcrumb items={items} />
+        <Settings />
+      </Flex>
       <Flex
         align="center"
         justify="space-between"

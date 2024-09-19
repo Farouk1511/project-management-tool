@@ -10,13 +10,14 @@ export const createProject = async (formData:any) => {
     // Extracting todo content and time from formData
     const name = formData.name;
     const description = formData.description;
-    //const color = formData.color
+    const color = formData.color
+
     try {
         // Creating a new todo using Todo model
         const newProject = await Project.create({
             name,
             description,
-            //color:color?color:null
+            color
         });
         // Saving the new todo
         newProject.save();

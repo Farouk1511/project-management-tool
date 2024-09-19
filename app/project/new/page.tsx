@@ -67,9 +67,16 @@ export default function NewProject() {
         >
           <TextArea placeholder="Description of the project" />
         </Form.Item>
-        {/* <Form.Item label="Color" name="color" initialValue={"grey"}>
-          <ColorPicker defaultFormat="hex" format="hex" trigger="hover"/>
-        </Form.Item> */}
+        <Form.Item label="Project Color" name="color" initialValue={"grey"}>
+          <ColorPicker
+            defaultFormat="hex"
+            format="hex"
+            trigger="hover"
+            onChangeComplete={(color) => {
+              form.setFieldValue("color", color.toHexString());
+            }}
+          />
+        </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">
             Create
