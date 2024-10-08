@@ -35,16 +35,16 @@ const resolvers = {
         throw new Error("Failed to fetch project");
       }
     },
-    getTask: async (_:any, {taskId}:{taskId:any}) => {
-      try{
-        await connectToMongoDB()
-        const task = await Task.findById(taskId)
-        return task
-      }catch(err){
-        console.error("Error fetching tasks")
-        throw new Error("Failed to fetch tasks")
+    getTask: async (_: any, { taskId }: { taskId: any }) => {
+      try {
+        await connectToMongoDB();
+        const task = await Task.findById(taskId);
+        return task;
+      } catch (err) {
+        console.error("Error fetching tasks");
+        throw new Error("Failed to fetch tasks");
       }
-    }
+    },
   },
   Mutation: {
     updateTask: async (
@@ -74,15 +74,42 @@ const resolvers = {
       }
     },
 
-    deleteTask: async (_:any, {id}:{id:string}) => {
-      try{
-        const deletedTask = await Task.findByIdAndDelete(id)
-        return deletedTask
-      }catch(err){
-        console.log("Error deleting task",err)
-        throw new Error("Error deleting task")
+    deleteTask: async (_: any, { id }: { id: string }) => {
+      try {
+        const deletedTask = await Task.findByIdAndDelete(id);
+        return deletedTask;
+      } catch (err) {
+        console.log("Error deleting task", err);
+        throw new Error("Error deleting task");
       }
-    }
+    },
+
+    updateProject: async (
+      _: any,
+      {
+        id,
+        input,
+      }: {
+        id: string;
+        input: {
+          name: string;
+          color: string;
+          description: string;
+        };
+      }
+    ) => {
+
+      try{
+        const updateProject = await Project.findByIdAndUpdate(id,input,{
+          new:true
+        })
+
+        return updateProject
+      }catch(error){
+        console.error("Error updating project details: ",error)
+        throw new Error("Error updating project")
+      }
+    },
   },
 };
 
@@ -114,15 +141,23 @@ const typeDefs = gql`
     projectId: ID
   }
 
+  input UpdateProjectInput {
+    name: String!
+    description: String!
+    color: String!
+    projectId: ID
+  }
+
   type Query {
     hello: String
     getProject(projectId: ID!): Project
-    getTask(taskId: ID!):Task
+    getTask(taskId: ID!): Task
   }
 
   type Mutation {
     updateTask(id: ID!, input: UpdateTaskInput!): Task
-    deleteTask(id: ID!):Task!
+    deleteTask(id: ID!): Task!
+    updateProject(id:ID!, input: UpdateProjectInput): Project
   }
 `;
 

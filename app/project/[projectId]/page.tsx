@@ -117,7 +117,7 @@ export default async function Page({
       {
         key: "update",
         label: (
-         "Hello"
+        <Link href={`/project/update/${params.projectId}`}>Update</Link>
         ),
        
       },

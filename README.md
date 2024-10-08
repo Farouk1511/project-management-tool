@@ -128,3 +128,6 @@ I have started using the application to track tasks for projects. I started usin
 
 *19/09/24*
 - Ability to Create, Read, Update and Delete Project related pages - in progress
+
+*08/10/24*
+- Create update page for project - done
