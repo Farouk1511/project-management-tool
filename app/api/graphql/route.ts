@@ -110,6 +110,30 @@ const resolvers = {
         throw new Error("Error updating project")
       }
     },
+
+    deleteProject: async (_:any,{id}:{id:string}) => {
+      try{
+        // Delete all tasks related to project Id
+        const tasks = await Task.find({projectId:id})
+
+        if(tasks.length === 0){
+          console.log("No task founf for this project")
+          return;
+        }
+
+        await Task.deleteMany({projectId:id})
+
+        // Delete project
+        const project = await Project.findByIdAndDelete(id)
+
+        // return deleted project
+        return project
+
+      }catch(error){
+        console.error("Error deleting project: ",error)
+        throw new Error("Error deleting project")
+      }
+    }
   },
 };
 
@@ -158,6 +182,7 @@ const typeDefs = gql`
     updateTask(id: ID!, input: UpdateTaskInput!): Task
     deleteTask(id: ID!): Task!
     updateProject(id:ID!, input: UpdateProjectInput): Project
+    deleteProject(id: ID!): Project!
   }
 `;
 

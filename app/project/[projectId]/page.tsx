@@ -23,6 +23,7 @@ import Link from "next/link";
 import TaskUtilityButton from "@/app/_components/TaskUtilityButton";
 import { connectToMongoDB } from "@/app/lib/connectDB";
 import type { MenuProps } from "antd";
+import ProjectDropDownMenu from "@/app/_components/ProjectDropDownMenu";
 
 export default async function Page({
   params,
@@ -111,33 +112,6 @@ export default async function Page({
     );
   };
 
-  const Settings = () => {
-
-    const items: MenuProps['items'] = [
-      {
-        key: "update",
-        label: (
-        <Link href={`/project/update/${params.projectId}`}>Update</Link>
-        ),
-       
-      },
-      {
-        key: "delete",
-        label: (
-          "World"
-        ),
-        danger: true,
-        
-      },
-    ];
-
-    return (
-      <Dropdown menu={{items}}>
-        <SettingOutlined />
-      </Dropdown>
-    );
-  };
-
   const filteredTasks = (
     status: (typeof TODO_STATUS)[keyof typeof TODO_STATUS]
   ) => {
@@ -148,7 +122,7 @@ export default async function Page({
     <div>
       <Flex align="center" justify="space-between">
         <Breadcrumb items={items} />
-        <Settings />
+       <ProjectDropDownMenu projectId={params.projectId}/>
       </Flex>
       <Flex
         align="center"

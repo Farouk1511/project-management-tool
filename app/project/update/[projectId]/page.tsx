@@ -89,6 +89,13 @@ export default function UpdateProject({
         </Link>
       ),
     },
+    {
+      title: (
+        <Link passHref href={`/project/${params.projectId}`}>
+          {data?.getProject?.name}
+        </Link>
+      ),
+    },
     { title: "Update Project" },
   ];
 

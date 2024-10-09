@@ -127,7 +127,10 @@ I have started using the application to track tasks for projects. I started usin
 - Add ability to decide what color for new projects - done
 
 *19/09/24*
-- Ability to Create, Read, Update and Delete Project related pages - in progress
+- Ability to Create, Read, Update and Delete Project related pages - done
 
 *08/10/24*
 - Create update page for project - done
+
+*09/10/24*
+- Create delete page for project - done
