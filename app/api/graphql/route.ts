@@ -38,7 +38,7 @@ const resolvers = {
     getTask: async (_: any, { taskId }: { taskId: any }) => {
       try {
         await connectToMongoDB();
-        const task = await Task.findById(taskId);
+        const task = await Task.findById(taskId).populate("project").exec();
         return task;
       } catch (err) {
         console.error("Error fetching tasks");

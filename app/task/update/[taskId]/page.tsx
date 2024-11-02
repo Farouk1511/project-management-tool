@@ -1,5 +1,5 @@
 "use client";
-import { Breadcrumb, Button, Form, Input, Select } from "antd";
+import { Breadcrumb, Button, Form, Input, Select, Skeleton } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import gql from "graphql-tag";
 import { useMutation, useQuery } from "@apollo/client";
@@ -63,7 +63,7 @@ export default function Page({ params }: { params: { taskId: string } }) {
     onCompleted: () => {
       console.log("Task updated secessfully");
       form.resetFields();
-      router.push('/task')
+      router.push("/task");
     },
     onError: (error) => {
       console.error("Error updating task", error);
@@ -103,7 +103,7 @@ export default function Page({ params }: { params: { taskId: string } }) {
   ];
 
   return loading ? (
-    <p> loading...</p>
+    <Skeleton />
   ) : (
     <div>
       <Breadcrumb items={items} />
@@ -116,12 +116,10 @@ export default function Page({ params }: { params: { taskId: string } }) {
         onFinish={onFinish}
         initialValues={{
           ...data.getTask,
+          name: data.getTask.project.name,
         }}
       >
         <Form.Item label="Project Name" name="name">
-          <Input disabled placeholder={"project Name"} />
-        </Form.Item>
-        <Form.Item label="Project ID" name="projectId">
           <Input disabled />
         </Form.Item>
         <Form.Item

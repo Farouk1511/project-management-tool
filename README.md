@@ -134,3 +134,7 @@ I have started using the application to track tasks for projects. I started usin
 
 *09/10/24*
 - Create delete page for project - done
+
+*01/11/24*
+- Possible designs: https://dribbble.com/shots/22466621-Project-Management-Web-App
+- Ability to open task for more details

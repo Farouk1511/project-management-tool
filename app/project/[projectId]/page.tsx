@@ -16,13 +16,12 @@ import {
   Row,
   Col,
   Flex,
-  Dropdown,
+  Tag,
 } from "antd";
 import Title from "antd/es/typography/Title";
 import Link from "next/link";
 import TaskUtilityButton from "@/app/_components/TaskUtilityButton";
 import { connectToMongoDB } from "@/app/lib/connectDB";
-import type { MenuProps } from "antd";
 import ProjectDropDownMenu from "@/app/_components/ProjectDropDownMenu";
 
 export default async function Page({
@@ -95,19 +94,22 @@ export default async function Page({
     return (
       <div>
         <Flex justify="space-between" align="center">
-          <Badge count={priority} color={PRIORITY_COLORS[priority]} />
-          {/* <Button
-           type="text"
-            icon={<EllipsisOutlined />}
-            style={{ backgroundColor: "transparent" }}
-          /> */}
+          <Tag
+            style={{ fontWeight: "bolder" }}
+            color={PRIORITY_COLORS[priority ?? ""]}
+          >
+            {priority}
+          </Tag>
+
           <TaskUtilityButton taskId={id} />
         </Flex>
 
-        <Title level={4}>{title}</Title>
-        <p>{description}</p>
+        <Link href={`/task/${id}`}>
+          <Title level={4}>{title}</Title>
+          <Title level={5}>{description}</Title>
 
-        <Divider />
+          <Divider />
+        </Link>
       </div>
     );
   };
@@ -122,7 +124,7 @@ export default async function Page({
     <div>
       <Flex align="center" justify="space-between">
         <Breadcrumb items={items} />
-       <ProjectDropDownMenu projectId={params.projectId}/>
+        <ProjectDropDownMenu projectId={params.projectId} />
       </Flex>
       <Flex
         align="center"

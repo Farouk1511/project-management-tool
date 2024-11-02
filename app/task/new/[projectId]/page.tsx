@@ -1,5 +1,5 @@
 "use client";
-import { Breadcrumb, Button, Form, Input, Select } from "antd";
+import { Breadcrumb, Button, Form, Input, Select, Skeleton } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { createTask } from "@/app/lib/actions";
 import { useEffect, useState } from "react";
@@ -82,6 +82,8 @@ export default function NewProject({
     },
     { title: "New" },
   ];
+
+  if (loading) return <Skeleton/>
   return (
     <div>
       <Breadcrumb items={items} />

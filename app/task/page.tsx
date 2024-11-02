@@ -33,9 +33,8 @@ export default async function Page({
       description: task.description,
       status: task.status,
       priority: task.priority,
-      createdAt: task.createdAt.toUTCString(),
+      createdAt: task.createdAt.toDateString(),
       project: task?.project?.name ?? "",
-      // productName: await Product.findById(task.productId)
     };
 
     return taskObj;

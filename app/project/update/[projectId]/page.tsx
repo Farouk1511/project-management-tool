@@ -1,5 +1,5 @@
 "use client";
-import { Breadcrumb, Button, ColorPicker, Form, Input } from "antd";
+import { Breadcrumb, Button, ColorPicker, Form, Input, Skeleton } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { createProject } from "@/app/lib/actions";
 import { useRouter } from "next/navigation";
@@ -100,7 +100,7 @@ export default function UpdateProject({
   ];
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Skeleton/>;
   }
 
   return (

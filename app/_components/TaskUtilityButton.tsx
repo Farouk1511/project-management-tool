@@ -3,8 +3,9 @@ import { EllipsisOutlined } from "@ant-design/icons";
 import { Menu, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import Link from "next/link";
+import { ReactNode } from "react";
 
-const TaskUtilityButton = ({ taskId }: { taskId: string }) => {
+const TaskUtilityButton = ({ taskId, icon }: { taskId: string;icon?:ReactNode }) => {
   const items: MenuProps['items'] = [
     {
       key: "update",
@@ -37,7 +38,7 @@ const TaskUtilityButton = ({ taskId }: { taskId: string }) => {
       autoAdjustOverflow
       overlayStyle={{ width: "100px" }}
     >
-      <EllipsisOutlined />
+     {!icon ? <EllipsisOutlined/> : icon }
     </Dropdown>
   );
 };
